@@ -289,9 +289,16 @@ class Hoaxshell(BaseHTTPRequestHandler):
 
 			
 			if payload_type == 'cmd-curl':
-								
+
+				output = bytes([ int(i) for i in output.split(' ') ]).decode('utf-8')
+
 				tmp = output.rsplit(delimiter, 1)
-				output = '\n'.join(tmp[0].split('\n')[1:])
+				
+				# output = '\n'.join(tmp[0].split('\n')[1:])
+				if tmp[0].startswith('\n'):
+					output = '\n'.join(tmp[0].split('\n')[1:])
+				else:
+					output = '\n'.join(tmp[0].split('\n'))
 				p = '\n' + tmp[1].strip()
 				
 				if Hoaxshell.init_dir == None:
